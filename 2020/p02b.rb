@@ -1,5 +1,5 @@
 good = 0
-File.readlines("p2.txt").each do |line|
+File.readlines("data/p02.txt").each do |line|
   low,high,char,pass = *line.scan(/(\d+)-(\d+) (.): (.*)/).flatten
   low = low.to_i - 1
   high = high.to_i - 1

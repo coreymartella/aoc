@@ -7,7 +7,7 @@ data = {
  {row: 1, col: 7} => {row: 0, col: 0, trees: 0},
  {row: 2, col: 1} => {row: 0, col: 0, trees: 0},
 }
-File.readlines("p3.txt").each_with_index do |line, line_num|
+File.readlines("data/p03.txt").each_with_index do |line, line_num|
   line.strip!
   data.each do |offset,status|
     if status[:row] == line_num

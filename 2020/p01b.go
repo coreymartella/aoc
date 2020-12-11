@@ -9,7 +9,7 @@ import (
 )
 //  Find the two entries that sum to 2020; what do you get if you multiply them together?
 func main()  {
-    file, err := os.Open("p1.in.txt")
+    file, err := os.Open("data/p1.txt")
     if err != nil {
         log.Fatal(err)
     }
