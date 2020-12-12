@@ -6,35 +6,38 @@ class P11
     File.readlines("data/p11.txt").each_with_index do |line,r|
       seats[r] ||= []
       line.strip.chars.each_with_index do |seat,c|
-        seats[r][c] = seat
+        seats[r][c] = seat.tr(OLD_EMPTY,EMPTY).tr(OLD_OCC,OCC).tr(OLD_FLOOR,FLOOR)
       end
     end
   end
-  EMPTY = "L"
-  OCC = "#"
-  FLOOR = "."
+  OLD_OCC = "#"
+  OLD_EMPTY = "L"
+  OLD_FLOOR = "."
+  OCC = "█"
+  EMPTY = "░"
+  FLOOR = " "
   def run
     @next_seats = []
     iters = 0
     while true
       clear_lines(seats.size+1) if iters > 0
       puts "iters=#{iters}"
-      puts seats.map(&:join).join("\n")
+      puts seats.map{|r| r.join}.join("\n")
       seats.each_with_index do |row,r|
         next_seats[r] ||= []
         row.each_with_index do |seat,c|
           count = count_vis_occ(r,c)
           # If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
           if seat == EMPTY && count == 0
-            puts "#{r},#{c} count=#{count} change EMPTY to OCC" if iters == 0
+            # puts "#{r},#{c} count=#{count} change EMPTY to OCC" if iters == 0
             next_seats[r][c] = OCC
           # If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
           elsif seat == OCC && count > 4
-            puts "#{r},#{c} count=#{count} change OCC to EMPTY" if iters == 0
+            # puts "#{r},#{c} count=#{count} change OCC to EMPTY" if iters == 0
             next_seats[r][c] = EMPTY
           else
           # Otherwise, the seat's state does not change.
-            puts "#{r},#{c} count=#{count} unchanged =#{seat}" if iters == 0
+            # puts "#{r},#{c} count=#{count} unchanged =#{seat}" if iters == 0
             next_seats[r][c] = seat
           end
         end
@@ -50,7 +53,7 @@ class P11
       @next_seats = []
     end
     occ_count = seats.flatten.count{|seat| seat == OCC}
-    puts "\n\nsstabilized iters=#{iters} occ=#{occ_count}"
+    puts "stabilized iters=#{iters} occ=#{occ_count}"
   end
 
   def count_adjacent(r,c)
