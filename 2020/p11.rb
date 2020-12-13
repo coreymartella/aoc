@@ -58,14 +58,12 @@ class P11
 
   def count_adjacent(r,c)
     count = Hash.new(0)
-    [-1,0,1].each do |d_r|
-      [-1,0,1].each do |d_c|
-        adj_r = r+d_r
-        adj_c = c+d_c
-        next if adj_r < 0 || adj_r >= seats.size || adj_c < 0 || adj_c >= seats.first.size
-        next if (adj_r == r && adj_c == c)
-        count += 1 if seats[adj_r][adj_c] == OCC
-      end
+    offsets.each do |d_r,d_c|
+      adj_r = r+d_r
+      adj_c = c+d_c
+      next if adj_r < 0 || adj_r >= seats.size || adj_c < 0 || adj_c >= seats.first.size
+      next if (adj_r == r && adj_c == c)
+      count += 1 if seats[adj_r][adj_c] == OCC
     end
     count
   end
@@ -89,15 +87,6 @@ class P11
   end
 
   def offsets
-    @offsets ||= begin
-      offsets = []
-      [-1,0,1].each do |d_r|
-        [-1,0,1].each do |d_c|
-          next if (d_r == 0 && d_c == 0)
-          offsets << [d_r,d_c]
-        end
-      end
-      offsets
-    end
+    @offsets ||= [-1,0,1].product([-1,0,1]).reject{|x,y| x == 0 && y == 0}
   end
 end
