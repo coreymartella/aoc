@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+require 'httparty'
+require 'dotenv/load'
+require 'thor'
+require 'benchmark'
+require 'byebug'
+lib_files = File.join(File.dirname(__FILE__), 'lib', '*.rb')
+src_files = File.join(File.dirname(__FILE__), 'src', '**', '*.rb')
+Dir[lib_files].each { |file| require file }
+Dir[src_files].each { |file| require file }
+
+# The CLI application
+class Aoc < Thor
+  desc 'download DAY', 'downloads an input file'
+  method_option :download, aliases: '-d'
+  def download(day)
+    PuzzleInput.download(year, day)
+  end
+
+  desc 'bootstrap DAY', 'prepares a sample project for a given day:
+downloads the input, creates a sample source and spec file'
+  method_option :bootstrap, aliases: '-b'
+  def bootstrap(day)
+    ::PuzzleInput.download(year, day)
+    Template.create_templates(year, day)
+    puts "https://adventofcode.com/#{year}/day/#{day}"
+  end
+
+  desc 'run DAY', 'executes a given day/year'
+  method_option :run_day, aliases: '-r'
+  def run_day(day)
+    puzzle = PuzzleSource.create_puzzle(year, day)
+    input = PuzzleInput.load(year, day)
+    PuzzleSource.run_part('part 1') { puzzle.part1(input) }
+    puts
+    PuzzleSource.run_part('part 2') { puzzle.part2(input) }
+  end
+
+  desc 'part1 DAY', 'executes the part1 for a given day/year'
+  method_option :part1
+  def part1(day)
+    puzzle = PuzzleSource.create_puzzle(year, day)
+    input = PuzzleInput.load(year, day)
+    PuzzleSource.run_part('part 1') { puzzle.part1(input) }
+  end
+
+  desc 'part2 DAY', 'executes the part2 for a given day/year'
+  method_option :part2
+  def part2(day)
+    puzzle = PuzzleSource.create_puzzle(year, day)
+    input = PuzzleInput.load(year, day)
+    PuzzleSource.run_part('part 2') { puzzle.part2(input) }
+  end
+
+  private
+  def year
+    Time.now.year.to_s
+  end
+end
+
+Dotenv.require_keys('AOC_COOKIE', 'AOC_INPUT_DIRECTORY')
+Aoc.start
