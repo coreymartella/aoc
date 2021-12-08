@@ -13,7 +13,7 @@ class PuzzleInput
 
   def self.puzzle_path(year, day)
     day = Day.pad(day)
-    File.join(ENV['AOC_INPUT_DIRECTORY'], year, "day-#{day}")
+    File.join(ENV['AOC_INPUT_DIRECTORY'], year, "day#{day}")
   end
 
   def self.download(year, day)

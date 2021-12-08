@@ -35,21 +35,34 @@ class PuzzleSource
     File.join(puzzle_source_directory(year), "day#{day}.rb")
   end
 
-  def self.puzzle_source(year, day)
+  def self.puzzle_source(year, day, problem_content)
     day = Day.pad(day)
 
     <<~TPL
       module Year#{year}
-        class Day#{day}
-          def part1(input)
-            "expected_result"
+        class Day#{day} < Problem
+          def part1
+            # debug!
+            h = Hash.new(0)
+            lines.each_with_index do |line, linenum|
+              # v1,v2 = *line.scan[/.../].flatten
+            end
+
           end
 
-          def part2(input)
-            nil
+          def part2
+            # debug!
+            h = Hash.new(0)
+            lines.each_with_index do |line, linenum|
+              # v1,v2 = *line.scan[/.../].flatten
+            end
           end
         end
       end
+
+      =begin
+      #{problem_content}
+      =end
     TPL
   end
 end

@@ -1,61 +1,74 @@
 #!/usr/bin/env ruby
-require 'httparty'
-require 'dotenv/load'
-require 'thor'
+require 'rubygems'
+require 'bundler/setup'
 require 'benchmark'
-require 'byebug'
+Bundler.require(:default)
+
 lib_files = File.join(File.dirname(__FILE__), 'lib', '*.rb')
 src_files = File.join(File.dirname(__FILE__), 'src', '**', '*.rb')
 Dir[lib_files].each { |file| require file }
-Dir[src_files].each { |file| require file }
+Dir[src_files].sort_by{|f| f =~ /day/ ? 1 : 0}.each { |file| require file }
+
+class Array
+  def histogram
+    group_by(&:itself).map { |k, v| [k, v.size] }.to_h
+  end
+  def average
+    sum.to_d/size
+  end
+  def p50
+    sort[size/2.0]
+  end
+end
 
 # The CLI application
 class Aoc < Thor
-  desc 'download DAY', 'downloads an input file'
-  method_option :download, aliases: '-d'
-  def download(day)
-    PuzzleInput.download(year, day)
-  end
+  class_option :year, {default: Time.now.year.to_s}
+  class_option :day, {default: Time.now.day.to_s}
+  class_option :debug
 
-  desc 'bootstrap DAY', 'prepares a sample project for a given day:
-downloads the input, creates a sample source and spec file'
-  method_option :bootstrap, aliases: '-b'
-  def bootstrap(day)
+  desc 'setup', 'prepares a sample project for a given day: downloads the input, creates a sample source'
+  def setup
     ::PuzzleInput.download(year, day)
     Template.create_templates(year, day)
     puts "https://adventofcode.com/#{year}/day/#{day}"
   end
 
-  desc 'run DAY', 'executes a given day/year'
-  method_option :run_day, aliases: '-r'
-  def run_day(day)
-    puzzle = PuzzleSource.create_puzzle(year, day)
-    input = PuzzleInput.load(year, day)
-    PuzzleSource.run_part('part 1') { puzzle.part1(input) }
+  desc 'try', 'trys a given day/year'
+  def try
+    PuzzleSource.run_part('part 1') { puzzle.part1 }
     puts
-    PuzzleSource.run_part('part 2') { puzzle.part2(input) }
+    PuzzleSource.run_part('part 2') { puzzle.part2 }
   end
 
-  desc 'part1 DAY', 'executes the part1 for a given day/year'
-  method_option :part1
-  def part1(day)
-    puzzle = PuzzleSource.create_puzzle(year, day)
-    input = PuzzleInput.load(year, day)
-    PuzzleSource.run_part('part 1') { puzzle.part1(input) }
+  desc 'part1', 'tries part1 for a given day/year'
+  def part1
+    PuzzleSource.run_part('part 1') { puzzle.part1 }
   end
 
-  desc 'part2 DAY', 'executes the part2 for a given day/year'
-  method_option :part2
-  def part2(day)
-    puzzle = PuzzleSource.create_puzzle(year, day)
-    input = PuzzleInput.load(year, day)
-    PuzzleSource.run_part('part 2') { puzzle.part2(input) }
+  desc 'part2', 'tries part2 for a given day/year'
+  def part2
+    PuzzleSource.run_part('part 2') { puzzle.part2 }
   end
 
-  private
-  def year
-    Time.now.year.to_s
-  end
+  protected
+    def year
+      options[:year]
+    end
+
+    def day
+      options[:day]
+    end
+
+    def debug
+      ENV["DEBUG"] || options[:debug]
+    end
+
+    def puzzle
+      @puzzle ||= PuzzleSource.create_puzzle(year, day).tap do |p|
+        p.debug = debug
+      end
+    end
 end
 
 Dotenv.require_keys('AOC_COOKIE', 'AOC_INPUT_DIRECTORY')
