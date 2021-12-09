@@ -14,7 +14,7 @@ module Year2021
       end
       file = nil if file && !File.exist?(file)
       file ||= "data/2021/day#{self.class.name.split("::").last[/\d+/]}"
-      File.readlines(file)
+      File.readlines(file).map(&:strip)
     end
     def print(msg=nil)
       return unless debug
