@@ -77,7 +77,7 @@ class Aoc < Thor
       <<~ruby
         #!/usr/bin/env ruby
         require_relative 'day'
-        class Day#{day} < Day
+        class Day#{padded_day} < Day
           # data is [], graph is {k => []}, f is {k => 0}, h is {}, result,r,c,x,y are ints
           def part1
             # debug!
@@ -101,7 +101,7 @@ class Aoc < Thor
         end
         if __FILE__ == $0
           ENV["INPUT"] = ARGV.last || __FILE__.split("/").last.gsub(".rb",'')
-          Day#{day}.new.part1
+          Day#{padded_day}.new.part1
         end
 
         =begin

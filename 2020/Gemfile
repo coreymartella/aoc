@@ -1,4 +1,0 @@
-source 'https://rubygems.org'
-ruby '2.6.5'
-gem 'httparty'
-gem 'activesupport', require: 'active_support/all'

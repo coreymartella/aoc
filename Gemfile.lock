@@ -1,0 +1,80 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (6.1.4.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+      zeitwerk (~> 2.3)
+    byebug (11.1.3)
+    coderay (1.1.3)
+    concurrent-ruby (1.1.9)
+    diff-lcs (1.4.4)
+    differ (0.1.2)
+    dotenv (2.7.6)
+    geo3d (0.1.7)
+    geom (0.1.0)
+    hashie (4.1.0)
+    httparty (0.20.0)
+      mime-types (~> 3.0)
+      multi_xml (>= 0.5.2)
+    i18n (1.8.11)
+      concurrent-ruby (~> 1.0)
+    method_source (1.0.0)
+    mime-types (3.4.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2021.1115)
+    minitest (5.14.4)
+    multi_xml (0.6.0)
+    nokogiri (1.12.5-x86_64-darwin)
+      racc (~> 1.4)
+    parslet (1.8.2)
+    priority_queue_cxx (0.3.4)
+    pry (0.14.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    racc (1.6.0)
+    rb_heap (1.1.0)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.1)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.3)
+    thor (1.1.0)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
+    upmark (1.0.0)
+      parslet (~> 1.8.2)
+    zeitwerk (2.5.1)
+
+PLATFORMS
+  x86_64-darwin-20
+
+DEPENDENCIES
+  activesupport
+  byebug
+  differ
+  dotenv
+  geo3d
+  geom
+  hashie
+  httparty
+  nokogiri
+  priority_queue_cxx
+  pry
+  rb_heap
+  rspec
+  thor
+  upmark
+
+BUNDLED WITH
+   2.2.26

@@ -1,0 +1,17 @@
+source "https://rubygems.org"
+
+gem 'dotenv', require: 'dotenv/load'
+gem 'httparty'
+gem 'byebug'
+gem 'nokogiri'
+gem 'thor'
+gem 'upmark'
+gem 'activesupport', require: 'active_support/all'
+gem 'hashie'
+gem 'rspec'
+gem 'geom'
+gem 'geo3d'
+gem 'differ'
+gem 'pry'
+gem 'rb_heap'
+gem 'priority_queue_cxx', require: 'fc'
