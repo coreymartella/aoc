@@ -101,7 +101,8 @@ class Aoc < Thor
         end
         if __FILE__ == $0
           ENV["INPUT"] = ARGV.last || __FILE__.split("/").last.gsub(".rb",'')
-          Day#{padded_day}.new.part1
+          d = Day#{padded_day}.new
+          d.respond_to?(:part2) ? d.part2 : d.part1
         end
 
         =begin

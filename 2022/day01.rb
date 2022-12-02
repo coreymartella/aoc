@@ -19,12 +19,6 @@ class Day01 < Day
     max_elf = elves.keys.max_by{|k| elves[k]}
     puts "#{elves}"
     puts "max_elf is #{max_elf} with #{elves[max_elf]}"
-    # max_iters = 10
-    # 1.upto(max_iters) do |iter|
-    #
-    # end
-
-    result
   end
 
   def part2
