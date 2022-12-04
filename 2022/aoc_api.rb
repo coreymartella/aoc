@@ -28,13 +28,21 @@ class AocApi
     end
   end
 
-  def answer(level,value)
-    resp = self.class.post("/#{@year}/day/#{@day}/answer", {**@options, body: {
+  def answer(day,level,value)
+    resp = self.class.post("/#{@year}/day/#{day}/answer", {**@options, body: {
         level: level,
         answer: value,
     }})
-    puts resp.body
     doc = Nokogiri::HTML5(resp.body)
+    result = Upmark.convert(doc.css("article").inner_html)
+      .gsub("<pre><code>","```\n")
+      .gsub("</code></pre>","```\n")
+      .gsub("<code>","`")
+      .gsub("</code>","`")
+      .gsub("<em>","*")
+      .gsub("</em>","*")
+    puts result
+    result
   end
 
   def examples(day_number)

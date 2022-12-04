@@ -5,9 +5,9 @@ class Day04 < Day
   def part1
     count = 0
     each_line do |line, li|
-      r1,r2 = line.split(",")
-      r1 = (r1.split("-").first.to_i..r1.split("-").last.to_i)
-      r2 = (r2.split("-").first.to_i..r2.split("-").last.to_i)
+      a,b,c,d = line.split(/[-,]/).map(&:to_i)
+      r1 = (a..b)
+      r2 = (c..d)
       puts "#{line} ==> #{r1} and #{r2}"
       if r1.include?(r2) || r1.include?(r2)
         puts " OVERLAP!!!!"
@@ -15,26 +15,29 @@ class Day04 < Day
       end
     end
     puts "overlap is #{count}"
+    answer(1, count)
   end
 
   def part2
     count = 0
     each_line do |line, li|
-      r1,r2 = line.split(",")
-      r1 = (r1.split("-").first.to_i..r1.split("-").last.to_i)
-      r2 = (r2.split("-").first.to_i..r2.split("-").last.to_i)
+      a,b,c,d = line.split(/[-,]/).map(&:to_i)
+      r1 = (a..b)
+      r2 = (c..d)
       puts "#{line} ==> #{r1} and #{r2}"
       if r1.intersection(r2).present?
         puts " OVERLAP!!!!"
         count += 1
       end
     end
+    answer(2, count)
   end
 end
 if __FILE__ == $0
   ENV["INPUT"] = ARGV.last || __FILE__.split("/").last.gsub(".rb",'')
   d = Day04.new
-  d.respond_to?(:part2) ? d.part2 : d.part1
+  d.part1
+  # d.respond_to?(:part2) ? d.part2 : d.part1
 end
 
 =begin

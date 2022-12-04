@@ -84,7 +84,11 @@ class Aoc < Thor
             #
             # v1, v2 = *input.split("\\n\\n")
             each_line do |line, li|
-              # v1,v2 = *line.scan[/.../].flatten
+              # a,b,c,d = line.scan[/.../].flatten.map(&:to_i)
+              # a,b,c,d = line.split(/[,- ]/).map(&:to_i)
+              if something
+                result += 1
+              end
             end
 
             # max_iters = 10
