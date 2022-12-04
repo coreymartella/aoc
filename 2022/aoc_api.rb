@@ -29,12 +29,12 @@ class AocApi
   end
 
   def answer(level,value)
-      resp = self.class.post("/#{@year}/day/#{@day}/answer", {**@options, body: {
-          level: level,
-          answer: value,
-      }})
-      puts resp.body
-      doc = Nokogiri::HTML5(resp.body)
+    resp = self.class.post("/#{@year}/day/#{@day}/answer", {**@options, body: {
+        level: level,
+        answer: value,
+    }})
+    puts resp.body
+    doc = Nokogiri::HTML5(resp.body)
   end
 
   def examples(day_number)

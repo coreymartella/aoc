@@ -21,8 +21,8 @@ class Aoc < Thor
       File.open("day#{padded_day}.ex#{i+1}",'w'){|f| f.print ex}
     end
 
-    system("subl #{code_file}")
     system("open https://adventofcode.com/#{year}/day/#{day}")
+    system("code #{code_file}")
   end
 
   desc 'try', 'trys a given day/year'
@@ -92,11 +92,14 @@ class Aoc < Thor
             #
             # end
 
-            result
+            puts "Result is #{result}... Submitting..."
+            answer(1, result)
           end
 
           # def part2
           #   # debug!
+          # puts "Result is #{result}... Submitting..."
+          # answer(2, result)
           # end
         end
         if __FILE__ == $0

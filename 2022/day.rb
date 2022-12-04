@@ -107,4 +107,12 @@ class Day
     msg ||= yield if block_given?
     Kernel.puts(msg)
   end
+
+  def aoc_api
+    @aoc_api ||= AocApi.new(Time.now.year, ENV['AOC_COOKIE'])
+  end
+
+  def answer(part, answer)
+    aoc_api.answer(day, part, answer)
+  end
 end
