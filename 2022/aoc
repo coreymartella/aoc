@@ -29,8 +29,9 @@ class Aoc < Thor
   def try
     part1
     puts
-    part2
+    part2 if puzzle.respond_to?(:part2)
   end
+  default_task :try
 
   desc 'part1', 'tries part1 for a given day/year'
   def part1
@@ -78,7 +79,7 @@ class Aoc < Thor
         #!/usr/bin/env ruby
         require_relative 'day'
         class Day#{padded_day} < Day
-          # data is [], graph is {k => []}, f is {k => 0}, h is {}, result,r,c,x,y are ints
+          # data is [], graph is {k => []}, f is {k => 0}, h is {}, answer,r,c,x,y are ints
           def part1
             # debug!
             #
@@ -87,7 +88,7 @@ class Aoc < Thor
               # a,b,c,d = line.scan[/.../].flatten.map(&:to_i)
               # a,b,c,d = line.split(/[,- ]/).map(&:to_i)
               if something
-                result += 1
+                self.answer += 1
               end
             end
 
@@ -96,14 +97,14 @@ class Aoc < Thor
             #
             # end
 
-            puts "Result is #{result}... Submitting..."
-            answer(1, result)
+            puts "Answer is \#{answer}"
+            submit_answer(part: 1, answer: answer) unless ARGV.join.include?('.ex')
           end
 
           # def part2
           #   # debug!
-          # puts "Result is #{result}... Submitting..."
-          # answer(2, result)
+          #   puts "Answer is \#{answer}"
+          #   submit_answer(part: 2, answer: answer) unless ARGV.join.include?('.ex')
           # end
         end
         if __FILE__ == $0

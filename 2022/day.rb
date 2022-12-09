@@ -8,9 +8,18 @@ class Day
   }
   O2C = C2O.invert
   attr_accessor :debug, :data
-  attr_accessor :result, :f, :h, :r, :c, :x, :y
-  def result
-    @result ||= 0
+  attr_accessor :answer, :f, :h, :r, :c, :x, :y
+  def initialize
+    answer
+    r
+    c
+    x
+    y
+    data
+    graph
+  end
+  def answer
+    @answer ||= 0
   end
   def r
     @r ||= 0
@@ -62,7 +71,7 @@ class Day
   end
   def each_line
     lines.each_with_index do |line,linenum|
-      print "\rL#{'%5d' % (linenum+1)} "
+      print "\rL#{'%5d' % (linenum+1)} " if debug
       yield line, linenum
     end
     puts
@@ -112,7 +121,9 @@ class Day
     @aoc_api ||= AocApi.new(Time.now.year, ENV['AOC_COOKIE'])
   end
 
-  def answer(part, answer)
-    aoc_api.answer(day, part, answer)
+  def submit_answer(part:, answer:)
+    aoc_api.answer(day: day, level: part, answer: answer)
+    # TODO if answer is correct grab part 2
+
   end
 end

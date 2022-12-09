@@ -1,7 +1,8 @@
 # HTTP API for downloading puzzles
 class AocApi
   include HTTParty
-  base_uri 'adventofcode.com'
+  base_uri 'https://adventofcode.com'
+  # debug_output $stdout # <= will spit out all request details to the console
 
   def initialize(year, session)
     @year = year
@@ -28,10 +29,11 @@ class AocApi
     end
   end
 
-  def answer(day,level,value)
+  def answer(day:,level:, answer: )
+    puts "submitting /#{@year}/day/#{day}/answer for level #{level} with value #{answer}"
     resp = self.class.post("/#{@year}/day/#{day}/answer", {**@options, body: {
         level: level,
-        answer: value,
+        answer: answer,
     }})
     doc = Nokogiri::HTML5(resp.body)
     result = Upmark.convert(doc.css("article").inner_html)
