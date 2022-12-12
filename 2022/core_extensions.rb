@@ -44,6 +44,7 @@ class Integer
 end
 
 class Point
+  include Comparable
   attr_accessor :x, :y
   def initialize(x,y)
     @x = x
@@ -60,5 +61,15 @@ class Point
   end
   def man_dist(other)
     (other.y-y).abs + (other.x-x).abs
+  end
+  alias_method :manhattan, :man_dist
+  def <=>(other)
+    [y,x] <=> [other.y,other.x]
+  end
+  def hash
+    [x,y].hash
+  end
+  def eql?(other)
+    self == other
   end
 end

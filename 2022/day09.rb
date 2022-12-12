@@ -13,7 +13,7 @@ class Day09 < Day
     @t_hist = Hash.new(0)
     @min_y = @min_x = 0
     @max_y = @max_x = 5
-    # print_board "== Initial State =="
+    print_board "== Initial State =="
 
     each_line do |line, li|
       dir, steps = line.scan(/([A-Z]) (\d+)/).flatten
@@ -24,7 +24,7 @@ class Day09 < Day
         h.y += 1 if dir == 'U'
         h.y -= 1 if dir == 'D'
         move_knots
-        # print_board "== #{line} =="
+        print_board "== #{line} =="
         t_hist[@knots.last.to_s] += 1
       end
     end
@@ -35,24 +35,24 @@ class Day09 < Day
 
   def print_board(banner)
     clear_lines(4+max_y-min_y)
-    puts "#{banner}\n"
     @min_x = [min_x, *@knots.map(&:x)].compact.min
     @max_x = [max_x, *@knots.map(&:x)].compact.max
     @min_y = [min_y, *@knots.map(&:y)].compact.min
     @max_y = [max_y, *@knots.map(&:y)].compact.max
+    puts "#{banner} (#{min_x}-#{max_x},#{min_y}-#{max_y})\n"
+    knot_pos = @knots.each_with_object({}).with_index { |(k, h), i| h[[k.x, k.y]] ||= i == 0 ? 'H' : i }
     max_y.downto(min_y) do |y|
-      min_x.upto(max_x) do |x|
-        if h.x == x && h.y == y
-          print 'H'
-        elsif (ti = @knots[1..-1].index{|k| k.x == x && k.y == y})
-          print ti+1
-        elsif s.x == x && s.y == y
-          print 's'
-        else
-          print '.'
-        end
+      line = (min_x..max_x).map do |x|
+        knot_pos[[x, y]] || " "
+        # if h.x == x && h.y == y
+        #   'H'
+        # elsif (ti = @knots[1..-1].index{|k| k.x == x && k.y == y})
+        #   ti+1
+        # else
+        #   ' '
+        # end
       end
-      puts
+      puts line.join
     end
     puts "\n"
   end

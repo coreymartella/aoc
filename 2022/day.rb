@@ -1,5 +1,7 @@
 require_relative 'setup'
 class Day
+  INFINITY = 1 << 64
+
   C2O = {
     ")" => "(",
     "]" => "[",
@@ -8,7 +10,7 @@ class Day
   }
   O2C = C2O.invert
   attr_accessor :debug, :data
-  attr_accessor :answer, :f, :h, :r, :c, :x, :y
+  attr_accessor :answer, :f, :h, :r, :c, :x, :y, :line
   def initialize
     answer
     r
@@ -30,7 +32,7 @@ class Day
   def x
     @x ||= 0
   end
-  def x
+  def y
     @y ||= 0
   end
   def h
@@ -71,6 +73,7 @@ class Day
   end
   def each_line
     lines.each_with_index do |line,linenum|
+      @line = line
       print "\rL#{'%5d' % (linenum+1)} " if debug
       yield line, linenum
     end
@@ -95,7 +98,8 @@ class Day
   UL ||= "\x1B[A"
   KL ||= "\x1B[K"
   def clear_lines(n=1)
-    n.times{STDOUT.print "#{UL}#{KL}";STDOUT.flush}
+    STDOUT.print("#{UL}#{KL}"*n)
+    STDOUT.flush
   end
 
   def dprint(msg=nil)
